@@ -1,0 +1,42 @@
+package com.polarbookshop.catalogservice.demo;
+
+import com.polarbookshop.catalogservice.domain.book.Book;
+import com.polarbookshop.catalogservice.domain.book.BookRepository;
+import lombok.RequiredArgsConstructor;
+import net.datafaker.Faker;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.random.RandomGenerator;
+import java.util.stream.IntStream;
+
+@RequiredArgsConstructor
+@Component
+@Profile("testdata")
+public class BookDataLoader {
+
+
+    private final BookRepository bookRepository;
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void loadBookTestData(){
+        bookRepository.deleteAll();
+        var faker = new Faker();
+        var rd = RandomGenerator.getDefault();
+        var books = new ArrayList<Book>();
+
+        IntStream.range(0, 5).forEach(i -> {
+            var book = Book.of("123456789"+ rd.nextInt(10),
+                    faker.book().title(),
+                    faker.book().author(),
+                    9.90);
+            books.add(book);
+        });
+
+        bookRepository.saveAll(books);
+    }
+
+}
