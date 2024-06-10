@@ -10,6 +10,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.random.RandomGenerator;
 import java.util.stream.IntStream;
 
@@ -25,14 +26,15 @@ public class BookDataLoader {
     public void loadBookTestData(){
         bookRepository.deleteAll();
         var faker = new Faker();
-        var rd = RandomGenerator.getDefault();
+        var rd = new Random();
         var books = new ArrayList<Book>();
 
         IntStream.range(0, 5).forEach(i -> {
-            var book = Book.of("123456789"+ rd.nextInt(10),
+            var book = Book.of("12345678"+ rd.nextInt(10) + rd.nextInt(10),
                     faker.book().title(),
                     faker.book().author(),
-                    9.90);
+                    9.90,
+                    "polar");
             books.add(book);
         });
 

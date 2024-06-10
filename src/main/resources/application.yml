@@ -10,24 +10,23 @@ server:
 polar:
   greeting: welcome to the local book catalog!
 spring:
+  config:
+    import: "optional:configserver:http://localhost:8888"
   application:
     name: catalog-service
   datasource:
-      username: lsh
+      username: hoonseung
       password: 4617
       url: jdbc:postgresql://localhost:5432/polardb_catalog
       hikari:
         connection-timeout: 2000
         maximum-pool-size: 5
-
-  config:
-    import: "optional:configserver:"
   cloud:
     config:
       uri: http://localhost:8888
       request-connect-timeout: 5000
       request-read-timeout: 5000
-      fail-fast: true # 재시도 작동
+      fail-fast: false # 재시도 작동
       retry:
         max-attempts: 6 # 최대 시도수
         initial-interval: 1000 # 최초 재시도 지연 시간 (밀리초)

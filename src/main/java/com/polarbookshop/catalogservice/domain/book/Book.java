@@ -30,6 +30,9 @@ public record Book(
         @Positive(message = "도서가격은 0보다 커야합니다.") // null 과 0보다 작은 값을 허용 x
         Double price,
 
+        @NotBlank(message = "출판사는 필수입니다.")
+        String publisher,
+
         @CreatedDate
         Instant createDate,
 
@@ -40,13 +43,14 @@ public record Book(
         int version
 ) {
 
-        public static Book of(String isbn, String title, String author, Double price){
+        public static Book of(String isbn, String title, String author, Double price, String publisher){
                 return new Book(
                         null,
                         isbn,
                         title,
                         author,
                         price,
+                        publisher,
                         null,
                         null,
                         0
