@@ -1,0 +1,36 @@
+apiVersion: apps/v1 # 배포 객체에 대한 api 버전
+kind: Deployment  # 생성할 객체 유형
+metadata:  # 배포 객체에 대한 세부정보
+  name: catalog-service
+  labels: # 배포에 추가할 레이블 집합
+    app: catalog-service  # 이 배포는 "app=catalog-service" 라는 레이블을 갖는다
+
+spec:
+  replicas: 1
+  selector: # 레플리카셋을 통해 확장할 객체 식별 정의
+    matchLabels:
+      app: catalog-service # 사용할 레이블
+  template: # 파드 및 컨테이너 생성하기 위해 명세
+    metadata:
+      labels:
+        app: catalog-service
+    spec:
+      containers:
+        - name: catalog-service # 파드 이름
+          image: catalog-service
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 5"] # 쿠버네티스가 파드에 SIGTERM 신호를 보내기 전에 5초를 기다려 전체에 요청 전달 중지 명령을 할 수 있도록 지연한다
+          ports:
+            - containerPort: 9001
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://polar-postgres/polardb_catalog"
+            - name: SPRING_PROFILES_ACTIVE
+              value: testdata
+
+

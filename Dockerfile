@@ -6,11 +6,11 @@ RUN java -Djarmode=layertools -jar catalog-service.jar extract
 
 
 FROM eclipse-temurin:17-jdk-alpine
-RUN adduser -S catalog
+RUN adduser catalog
 USER catalog
 WORKDIR workspace
-COPY --from=builder workspace/dependencies/ .
-COPY --from=builder workspace/spring-boot-loader/ .
-COPY --from=builder workspace/snapshot-dependencies/ .
-COPY --from=builder workspace/application/ .
+COPY --from=builder workspace/dependencies/ ./
+COPY --from=builder workspace/spring-boot-loader/ ./
+COPY --from=builder workspace/snapshot-dependencies/ ./
+COPY --from=builder workspace/application/ ./
 ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.random.RandomGenerator;
 import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
@@ -30,7 +29,7 @@ public class BookDataLoader {
         var books = new ArrayList<Book>();
 
         IntStream.range(0, 5).forEach(i -> {
-            var book = Book.of("12345678"+ rd.nextInt(10) + rd.nextInt(10),
+            var book = Book.of("1234" + rd.nextInt(10) + "678"+ rd.nextInt( 10) + rd.nextInt(10),
                     faker.book().title(),
                     faker.book().author(),
                     9.90,

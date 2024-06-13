@@ -1,0 +1,16 @@
+apiVersion: v1 # 서비스 객체의 api 버전
+kind: Service
+metadata:
+  name: catalog-service # 서비스 이름
+  labels:
+    app: catalog-service  # 서비스에 추가될 레이블
+spec:
+  type: ClusterIP  # 서비스 타입
+  selector:
+    app: catalog-service  # 대상으로 삼고 노출해야 하는 파드를 찾는데 사용할 레이블
+  ports:
+    - protocol: TCP # 사용할 네트워크 프로토콜
+      port: 80 # 서비스가 노출할 파드
+      targetPort: 9001 # 서비스 대상이 되는 파드가 노출할 파드
+
+  
