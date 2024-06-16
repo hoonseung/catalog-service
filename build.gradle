@@ -29,7 +29,7 @@ bootRun{
 
 bootBuildImage{
     imageName = "${project.name}"
-    environment = ["BP_JVM_VERSION" : "17.*"]
+    environment = ["BP_JVM_VERSION" : "17.*"] // 이미지에 설치할 jvm 버전
 
     docker {
         publishRegistry {
