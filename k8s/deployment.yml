@@ -10,8 +10,9 @@ spec:
   selector: # 레플리카셋을 통해 확장할 객체 식별 정의
     matchLabels:
       app: catalog-service # 사용할 레이블
-  template: # 파드 및 컨테이너 생성하기 위해 명세
+  template: # 사용할 파드 및 컨테이너 생성하기 위해 명세
     metadata:
+      name: catalog-service
       labels:
         app: catalog-service
     spec:
@@ -28,9 +29,16 @@ spec:
           env:
             - name: BPL_JVM_THREAD_COUNT
               value: "50"
+
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://polar-postgres/polardb_catalog"
+
             - name: SPRING_PROFILES_ACTIVE
               value: testdata
+
+            - name: SPRING_CLOUD_CONFIG_URL
+              value: http://config-service
+            - name: SPRING_CONFIG_IMPORT
+              value: optional:configserver:http://config-service
 
 
