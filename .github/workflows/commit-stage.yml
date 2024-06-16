@@ -9,7 +9,7 @@ env:
 jobs:
   build:
     name: Build and Test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       security-events: write
@@ -53,12 +53,12 @@ jobs:
       run: |
         chmod +x gradlew
         ./gradlew build
-  
+
   package:
     name: Package and Publish
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: [ build ]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -104,5 +104,3 @@ jobs:
 
       - name: Publish container image
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
-
-
