@@ -34,7 +34,7 @@ public record Book(
         String publisher,
 
         @CreatedDate
-        Instant createDate,
+        Instant createdDate,
 
         @LastModifiedDate
         Instant lastModifiedDate,
