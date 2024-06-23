@@ -28,6 +28,7 @@ bootRun{
 }
 
 bootBuildImage{
+    builder = "docker.io/paketobuildpacks/builder-jammy-base"
     imageName = "${project.name}"
     environment = ["BP_JVM_VERSION" : "17.*"] // 이미지에 설치할 jvm 버전
 

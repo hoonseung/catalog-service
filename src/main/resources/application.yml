@@ -14,7 +14,7 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 15s
   config:
-    import: "optional:configserver:http://localhost:8888"
+    import: "optional:configserver:http://localhost:8888" # 1순위
   application:
     name: catalog-service
   datasource:
@@ -26,10 +26,10 @@ spring:
         maximum-pool-size: 5
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://localhost:8888 # 2순위
       request-connect-timeout: 5000
       request-read-timeout: 5000
-      fail-fast: false # 재시도 작동
+      fail-fast: false # 재시도 작동 prod 환경 때 true
       retry:
         max-attempts: 6 # 최대 시도수
         initial-interval: 1000 # 최초 재시도 지연 시간 (밀리초)
