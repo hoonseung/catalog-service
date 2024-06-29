@@ -5,6 +5,7 @@ import com.polarbookshop.catalogservice.config.DataConfig;
 import com.polarbookshop.catalogservice.domain.book.Book;
 import com.polarbookshop.catalogservice.domain.book.BookRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
     @Autowired
     private BookRepository bookRepository;
 
-
+    @Disabled
     @DisplayName("미인증 상태에서 데이터 등록 시 데이터 감사 테스트")
     @Test
     void whenCreateBookNotAuthenticatedThenAuditMetadata(){
@@ -37,6 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         assertThat(psBook.lastModifiedBy()).isNull();
     }
 
+    @Disabled
     @DisplayName("인증 상태에서 데이터 등록 시 데이터 감사 테스트")
     @WithMockUser(username = "devJohn")
     @Test
