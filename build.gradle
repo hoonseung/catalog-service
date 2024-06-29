@@ -5,11 +5,6 @@ plugins {
 }
 
 
-ext {
-    springCloudVersion = "2023.0.2"
-    set('testcontainersVersion', "1.17.3")
-}
-
 group = 'com.polarbookshop'
 version = '0.0.1-SNAPSHOT'
 
@@ -49,6 +44,12 @@ configurations {
     }
 }
 
+ext {
+    springCloudVersion = "2023.0.2"
+    set('testcontainersVersion', "1.17.3")
+    set('testKeycloakVersion', "3.3.1")
+}
+
 dependencies {
     implementation 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -61,16 +62,19 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-database-postgresql'
-    testImplementation 'org.testcontainers:junit-jupiter'
-    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-    testImplementation 'org.testcontainers:postgresql'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'net.datafaker:datafaker:2.2.2'
+
     annotationProcessor'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'net.datafaker:datafaker:2.2.2'
+    runtimeOnly 'org.postgresql:postgresql'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
-    testImplementation 'io.projectreactor:reactor-test'
-    runtimeOnly 'org.postgresql:postgresql'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation "com.github.dasniko:testcontainers-keycloak:${testKeycloakVersion}"
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
