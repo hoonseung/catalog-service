@@ -4,10 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
 
 import java.time.Instant;
 
@@ -36,8 +33,14 @@ public record Book(
         @CreatedDate
         Instant createdDate,
 
+        @CreatedBy
+        String createdBy,
+
         @LastModifiedDate
         Instant lastModifiedDate,
+
+        @LastModifiedBy
+        String lastModifiedBy,
 
         @Version // 낙관적 잠금, 자동증가, 동시 업데이트 방지
         int version
@@ -51,6 +54,8 @@ public record Book(
                         author,
                         price,
                         publisher,
+                        null,
+                        null,
                         null,
                         null,
                         0

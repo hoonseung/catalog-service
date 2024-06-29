@@ -4,18 +4,18 @@ package com.polarbookshop.catalogservice.web;
 import com.polarbookshop.catalogservice.domain.book.Book;
 import com.polarbookshop.catalogservice.domain.book.BookService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RequestMapping("/books")
 @RestController
 public class BookController {
 
     private final BookService bookService;
 
-    public BookController(BookService bookService){
-        this.bookService = bookService;
-    }
+
 
     @GetMapping
     public Iterable<Book> get(){
