@@ -22,7 +22,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain config(HttpSecurity http)throws Exception{
         return http.authorizeHttpRequests(authRequest ->
-                authRequest.requestMatchers(HttpMethod.GET, "/", "/books/**")
+                authRequest.requestMatchers("/actuator/**")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/", "/books/**")
                         .permitAll()
                         .anyRequest().hasRole("employee")
         ).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // jwt 기반한 기본 설정이 적용된 oauth2 리소스 서버 지원 활성화
@@ -31,8 +33,9 @@ public class SecurityConfig {
                 .build();
     }
 
-
-    // JwtBearerTokenAuthenticationConverter : jwt 토큰을 -> 인증 객체로 변환하는 객체,
+    // BearerTokenAuthenticationFilter 토큰 인증 수행 필터 같음
+    // BearerTokenAuthenticationToken 인증객체
+    // JwtAuthenticationConverter : jwt 토큰을 -> 인증 객체로 변환하는 객체,
     // 내부에서 JwtAuthenticationConverter, JwtGrantedAuthoritiesConverter 객체를 사용함
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter(){
