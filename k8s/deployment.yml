@@ -15,11 +15,29 @@ spec:
       name: catalog-service
       labels:
         app: catalog-service
+      annotations:
+        prometheus.io/scrape: "true" # 프로메테우스에게 이 파드에 있는 컨터에너로부터 데이터를 가져와야함을 알린다
+        prometheus.io/path: /actuator/prometheus # 프로메테우스 메트릭을 제공하는 http 엔드포인트 지정
+        prometheus.io/port: "9001" # 메트릭 엔드포인트 포트
+
     spec:
       containers:
         - name: catalog-service # 파드 이름
           image: catalog-service
           imagePullPolicy: IfNotPresent
+          livenessProbe: # 활성 상태 프로브
+            httpGet:
+              path: /actuator/health/liveness
+              port: 9001
+            initialDelaySeconds: 13 # 애플리케이션 시작하고 상태 확인 전 초기 지연 시간
+            periodSeconds: 5 # 활성 상태를 가져오는 빈도
+          readinessProbe: # 준비 상태 프로브
+            httpGet:
+              path: /actuator/health/readiness
+              port: 9001
+            initialDelaySeconds: 8
+            periodSeconds: 15
+
           lifecycle:
             preStop:
               exec:
@@ -29,14 +47,14 @@ spec:
           env:
             - name: BPL_JVM_THREAD_COUNT
               value: "50"
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://polar-postgres/polardb_catalog"
             - name: SPRING_PROFILES_ACTIVE
               value: testdata
-            - name: SPRING_CLOUD_CONFIG_URL
-              value: http://config-service
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-              value: http://polar-keycloak/realms/PolarBookshop
-
+          volumeMounts: # 컨피그맵을 컨테이너 볼륨에 마운트한다.
+            - mountPath: /workspace/config # 해당 경로에 속성 파일이 생성되고 스프링 부트는 자동으로 해당 경로에서 속성 파일을 찾고 로드한다.
+              name: catalog-config-volume
+      volumes: # 파드를 위해 볼륨 정의
+        - name: catalog-config-volume # 볼륨 이름
+          configMap:
+            name: catalog-config
 
 
